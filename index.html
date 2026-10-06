@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>O'quv jurnali</title>
+<style id="css">
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--card:rgba(255,255,255,.93);--ink:#1d2a2a;--mute:#5d6b6b;--line:#d3dcdc;--acc:#0f6b6b;--accfg:#fff;--field:#fff;
+--ok:#14703c;--okbg:#d9f1e2;--no:#b3261e;--nobg:#f9dcd8;--sb:#8a5a00;--sbbg:#fbebc8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--card:rgba(26,34,34,.94);--ink:#e8f0f0;--mute:#9fb0b0;--line:#33423f;--acc:#5fc4c0;--accfg:#08201f;--field:#142020;--ok:#7be0a4;--okbg:#17402a;--no:#ff9d94;--nobg:#4a1f1b;--sb:#f2c36b;--sbbg:#47360f}}
+:root[data-theme="dark"]{--card:rgba(26,34,34,.94);--ink:#e8f0f0;--mute:#9fb0b0;--line:#33423f;--acc:#5fc4c0;--accfg:#08201f;--field:#142020;--ok:#7be0a4;--okbg:#17402a;--no:#ff9d94;--nobg:#4a1f1b;--sb:#f2c36b;--sbbg:#47360f}
+*,*:before,*:after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;background:#cfe8e3;background-attachment:fixed;color:var(--ink);font:16px/1.4 "Trebuchet MS",Verdana,system-ui,sans-serif}
+#app{max-width:720px;margin:0 auto;padding:12px;display:grid;gap:12px}
+.card{background:var(--card);border-radius:14px;padding:14px;border:1px solid var(--line)}
+h1{font-size:1.25rem;margin:0}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sw{display:flex;gap:8px}
+.sw button{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);padding:0;cursor:pointer}
+.sw button.on{border-color:var(--ink);box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ink)}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.gs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.gs button{flex:0 0 auto;min-width:92px;min-height:52px;border:1px solid var(--line);background:var(--field);border-radius:10px;padding:6px 10px;text-align:left}
+.gs button b{display:block;font-size:1.05rem}
+.gs button small{color:var(--mute);font-size:.72rem}
+.gs button.on{background:var(--acc);color:var(--accfg);border-color:var(--acc)}
+.gs button.on small{color:var(--accfg)}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tabs button{font-size:.82rem;padding:0 2px;min-height:44px;border:1px solid var(--line);background:var(--field);border-radius:10px;font-weight:600}
+.tabs button.on{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.info{color:var(--mute);font-size:.9rem;margin:0 0 8px}
+.warn{background:var(--sbbg);color:var(--sb);border-radius:8px;padding:8px 10px;font-size:.9rem;margin:8px 0}
+.row{display:grid;gap:8px;padding:10px 0;border-top:1px solid var(--line)}
+.row:first-of-type{border-top:0}
+.nm{font-weight:700}
+.nm small{font-weight:400;color:var(--mute);margin-left:6px}
+.st{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.st button,.pb,.act{min-height:44px;border:1px solid var(--line);background:var(--field);border-radius:10px;font-weight:600}
+.st button.k.on{background:var(--okbg);color:var(--ok);border-color:var(--ok)}
+.st button.n.on{background:var(--nobg);color:var(--no);border-color:var(--no)}
+.st button.s.on{background:var(--sbbg);color:var(--sb);border-color:var(--sb)}
+.pr{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pb.on{background:var(--okbg);color:var(--ok);border-color:var(--ok)}
+.pb.off{background:var(--nobg);color:var(--no);border-color:var(--no)}
+input,textarea{width:100%;min-height:44px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--field)}
+.sum{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chip{border-radius:20px;padding:4px 12px;font-size:.9rem;font-weight:600}
+.c-k{background:var(--okbg);color:var(--ok)}.c-n{background:var(--nobg);color:var(--no)}.c-s{background:var(--sbbg);color:var(--sb)}
+.act{background:var(--acc);color:var(--accfg);border-color:var(--acc);padding:0 16px}
+.act.ghost{background:var(--field);color:var(--ink);border-color:var(--line)}
+.act.red{background:var(--nobg);color:var(--no);border-color:var(--no)}
+label{display:block;font-size:.9rem;color:var(--mute);margin:8px 0 4px}
+.prow{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;min-height:54px;padding:8px 2px;background:transparent;border:0;border-top:1px solid var(--line);text-align:left}
+.hb{display:flex;gap:8px;margin-top:10px}.hb .act{flex:1;padding:0 8px}
+h2{font-size:1rem;margin:16px 0 6px}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{padding:8px 6px;border-top:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left;white-space:normal}
+th{color:var(--mute);font-weight:600;border-top:0}
+td.ok{color:var(--ok);font-weight:600}td.no{color:var(--no);font-weight:600}
+tfoot td{font-weight:700}
+.empty{text-align:center;color:var(--mute);padding:16px 0}
+.list{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script id="code">
+var G=[
+{n:'A1',s:'Toq · 06–08',t:'Toq kunlari (dushanba, chorshanba, juma), 06:00–08:00',d:[1,3,5]},
+{n:'A2',s:'Toq · 18–20',t:'Toq kunlari (dushanba, chorshanba, juma), abetdan keyin 18:00–20:00',d:[1,3,5]},
+{n:'A3',s:'Toq · 16–18',t:'Toq kunlari (dushanba, chorshanba, juma), abetdan keyin 16:00–18:00',d:[1,3,5]},
+{n:'A4',s:'Juft · 14–16',t:'Juft kunlari (seshanba, payshanba, shanba), abetdan keyin 14:00–16:00',d:[2,4,6]},
+{n:'B1',s:'Juft · 17–19',t:'Juft kunlari (seshanba, payshanba, shanba), abetdan keyin 17:00–19:00',d:[2,4,6]},
+{n:'B2',s:'Abetgacha',t:'Seshanba, payshanba, juma, shanba, yakshanba, abetgacha',d:[2,4,5,6,0]}];
+var BG={tong:'linear-gradient(160deg,#cfe8e3,#f3efe0)',osmon:'linear-gradient(160deg,#c7dcf5,#eef4fc)',kech:'linear-gradient(160deg,#2b2a4a,#6a4a7a)',yashil:'linear-gradient(160deg,#bfe3c0,#f1f7da)'};
+var WD=['Yakshanba','Dushanba','Seshanba','Chorshanba','Payshanba','Juma','Shanba'];
+var KEY='jurnal-v1';
+function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+var S={bg:'tong',cur:'A1',tab:'att',date:today(),month:today().slice(0,7),del:null,edit:null,d:{}};
+if(typeof PRELOAD!=='undefined'){KEY='jurnal-copy-'+PRELOAD.t;if(BG[PRELOAD.bg])S.bg=PRELOAD.bg;S.d=PRELOAD.d||{}}
+try{var r=localStorage.getItem(KEY);if(r){var o=JSON.parse(r);if(o.bg&&BG[o.bg])S.bg=o.bg;S.d=o.d||{};S.saved=o.ts||null}}catch(e){}
+function save(){try{var ts=Date.now();localStorage.setItem(KEY,JSON.stringify({bg:S.bg,d:S.d,ts:ts}));S.saved=ts;return true}catch(e){return false}}
+function pad(n){return String(n).padStart(2,'0')}
+function fmt(ts){var d=new Date(ts);return pad(d.getDate())+'.'+pad(d.getMonth()+1)+' '+pad(d.getHours())+':'+pad(d.getMinutes())}
+function gd(n){return S.d[n]||(S.d[n]={st:[],att:{},pay:{}})}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function money(n){return Number(n||0).toLocaleString('ru-RU')+" so'm"}
+var DL=null,msgT=null;
+function note(t){S.msg=t;R();clearTimeout(msgT);msgT=setTimeout(function(){S.msg=null;R()},5000)}
+function buildCopy(){
+var css=document.getElementById('css').textContent,code=document.getElementById('code').textContent;
+var pre='var PRELOAD='+JSON.stringify({t:Date.now(),bg:S.bg,d:S.d}).replace(/</g,'\\u003c')+';\n';
+return '<!DOCTYPE html>\n<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>O\'quv jurnali</title><style>'+css+'</style></head><body><div id="app"></div><scr'+'ipt>'+pre+code+'<\/scr'+'ipt></body></html>'}
+function doKeep(){if(save())note('Saqlandi. Keyingi kirishingizda ham ma\'lumotlar shu holatda turadi.');else note('Saqlab bo\'lmadi: brauzer saqlashga ruxsat bermayapti.')}
+function doSave(){
+if(!DL)return;
+DL.save({filename:'jurnal-'+today()+'.html',data:buildCopy()}).then(function(){note('Zaxira fayl saqlandi.')}).catch(function(e){if(!e||e.code!=='declined')note('Saqlab bo\'lmadi. Qaytadan urinib ko\'ring.')})}
+var app=document.getElementById('app');
+function R(){
+document.body.style.background=BG[S.bg];
+var g=gd(S.cur),gi=G.filter(function(x){return x.n===S.cur})[0];
+var h='<header class="card"><div class="top"><h1>O\'quv jurnali</h1><div class="sw" role="group" aria-label="Fon">'+
+Object.keys(BG).map(function(k){return '<button data-a="bg" data-v="'+k+'" aria-label="Fon: '+k+'" class="'+(k===S.bg?'on':'')+'" style="background:'+BG[k]+'"></button>'}).join('')+'</div></div>'+'<div class="hb"><button class="act" data-a="keep">Saqlash</button>'+(DL?'<button class="act ghost" data-a="save">Zaxira fayl</button>':'')+'</div><p class="info" style="margin:8px 0 0">'+(S.saved?'Oxirgi saqlash: '+fmt(S.saved)+'. ':'')+'Har bir o\'zgarish avtomatik saqlanadi.</p>'+(S.msg?'<div class="warn">'+S.msg+'</div>':'')+'</header>';
+h+='<nav class="gs card" aria-label="Guruhlar">'+G.map(function(x){return '<button data-a="grp" data-v="'+x.n+'" class="'+(x.n===S.cur?'on':'')+'"><b>'+x.n+'</b><small>'+x.s+'</small></button>'}).join('')+'</nav>';
+h+='<div class="tabs">'+[['att',"Yo'qlama"],['pay',"To'lov"],['stu',"O'quvchilar"],['rep','Hisobot']].map(function(x){return '<button data-a="tab" data-v="'+x[0]+'" class="'+(x[0]===S.tab?'on':'')+'">'+x[1]+'</button>'}).join('')+'</div>';
+h+='<main class="card"><p class="info"><b>'+gi.n+'</b>: '+gi.t+'</p>';
+if(S.tab==='att')h+=vAtt(g,gi);else if(S.tab==='pay')h+=vPay(g);else if(S.tab==='rep')h+=vRep(g);else h+=vStu(g);
+h+='</main>';
+app.innerHTML=h;
+if(S.edit){var a2=document.getElementById('amt');if(a2){a2.focus();a2.select()}}}
+function none(){return '<div class="empty">Bu guruhda hali o\'quvchi yo\'q.<br><br><button class="act" data-a="tab" data-v="stu">O\'quvchi qo\'shish</button></div>'}
+function vAtt(g,gi){
+var h='<label for="dt">Sana</label><input id="dt" type="date" data-a="date" value="'+S.date+'">';
+var wd=new Date(S.date+'T00:00:00').getDay();
+if(gi.d.indexOf(wd)<0)h+='<div class="warn">'+WD[wd]+' bu guruhning dars kuni emas. Baribir belgilashingiz mumkin.</div>';
+if(!g.st.length)return h+none();
+var m=g.att[S.date]||{},c={k:0,n:0,s:0},pre=S.date.slice(0,7);
+g.st.forEach(function(s){if(m[s.id])c[m[s.id]]++});
+h+='<div class="sum"><span class="chip c-k">Keldi: '+c.k+'</span><span class="chip c-n">Kelmadi: '+c.n+'</span><span class="chip c-s">Sababli: '+c.s+'</span></div>';
+h+='<button class="act ghost" data-a="all">Hammasi keldi</button>';
+g.st.forEach(function(s){
+var n=0,sb=0;Object.keys(g.att).forEach(function(d){if(d.indexOf(pre)===0){var v=g.att[d][s.id];if(v==='n')n++;if(v==='s')sb++}});
+var v=m[s.id];
+h+='<div class="row"><div class="nm">'+esc(s.n)+'<small>shu oy: '+n+' kelmagan, '+sb+' sababli</small></div><div class="st">'+
+[['k','Keldi'],['n','Kelmadi'],['s','Sababli']].map(function(b){return '<button class="'+b[0]+(v===b[0]?' on':'')+'" data-a="mark" data-id="'+s.id+'" data-v="'+b[0]+'">'+b[1]+'</button>'}).join('')+'</div></div>'});
+return h}
+function amt(v,s){return typeof v==='number'?v:(v?(s.f||0):0)}
+function vPay(g){
+var h='<label for="mo">Oy</label><input id="mo" type="month" data-a="month" value="'+S.month+'">';
+if(!g.st.length)return h+none();
+var m=g.pay[S.month]||{},p=0,q=0,sum=0;
+g.st.forEach(function(s){var a=amt(m[s.id],s);if(a>0){p++;sum+=a}else q++});
+h+='<div class="sum"><span class="chip c-k">To\'ladi: '+p+'</span><span class="chip c-n">Qarzdor: '+q+'</span><span class="chip c-s">Tushum: '+money(sum)+'</span></div>';
+h+='<p class="info">Summa kiritish uchun o\'quvchi ustiga bosing.</p>';
+g.st.forEach(function(s){
+var a=amt(m[s.id],s);
+if(S.edit===s.id){
+h+='<div class="row"><div class="nm">'+esc(s.n)+'</div><input id="amt" type="text" inputmode="numeric" autocomplete="off" placeholder="Summa, masalan 300000" value="'+(a||'')+'"><div class="pr"><button class="act" data-a="savepay" data-id="'+s.id+'">Saqlash</button><button class="act ghost" data-a="canc">Bekor</button></div>'+(a>0?'<button class="act red" data-a="clrpay" data-id="'+s.id+'">To\'lovni o\'chirish</button>':'')+'</div>'}
+else h+='<button class="prow" data-a="edit" data-id="'+s.id+'"><span class="nm">'+esc(s.n)+'</span><span class="chip '+(a>0?'c-k':'c-n')+'">'+(a>0?money(a):'Qarzdor')+'</span></button>'});
+return h}
+var MN=['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentyabr','Oktyabr','Noyabr','Dekabr'];
+function mstat(g,mo){
+var r={};g.st.forEach(function(s){r[s.id]={k:0,n:0,s:0,p:amt((g.pay[mo]||{})[s.id],s)}});
+Object.keys(g.att).forEach(function(d){if(d.indexOf(mo)===0){var day=g.att[d];Object.keys(day).forEach(function(id){if(r[id]&&day[id])r[id][day[id]]++})}});
+return r}
+function vRep(g){
+var mo=S.month,h='<label for="mo">Oy</label><input id="mo" type="month" data-a="month" value="'+mo+'">';
+var ttl=MN[(+mo.slice(5,7))-1]+' '+mo.slice(0,4);
+if(!g.st.length)return h+none();
+var r=mstat(g,mo),T={k:0,n:0,s:0,p:0,sum:0};
+var rows=g.st.map(function(s){var x=r[s.id];T.k+=x.k;T.n+=x.n;T.s+=x.s;if(x.p>0){T.p++;T.sum+=x.p}
+return '<tr><td>'+esc(s.n)+'</td><td>'+x.k+'</td><td>'+x.n+'</td><td>'+x.s+'</td><td class="'+(x.p>0?'ok':'no')+'">'+(x.p>0?money(x.p):'Qarzdor')+'</td></tr>'}).join('');
+h+='<h2>'+S.cur+' guruhi, '+ttl+'</h2><div class="sum"><span class="chip c-k">Keldi: '+T.k+'</span><span class="chip c-n">Kelmadi: '+T.n+'</span><span class="chip c-s">Sababli: '+T.s+'</span></div>';
+h+='<div class="tw"><table><thead><tr><th>Ism</th><th>Keldi</th><th>Kelmadi</th><th>Sababli</th><th>To\'lov</th></tr></thead><tbody>'+rows+'</tbody><tfoot><tr><td>Jami</td><td>'+T.k+'</td><td>'+T.n+'</td><td>'+T.s+'</td><td>'+money(T.sum)+'</td></tr></tfoot></table></div>';
+h+='<p class="info" style="margin-top:8px">To\'lagan: '+T.p+' ta, qarzdor: '+(g.st.length-T.p)+' ta.</p>';
+var A={st:0,k:0,n:0,s:0,p:0,sum:0};
+var gr=G.map(function(x){var gg=gd(x.n),rr=mstat(gg,mo),c={k:0,n:0,s:0,p:0,sum:0};
+gg.st.forEach(function(s){var y=rr[s.id];c.k+=y.k;c.n+=y.n;c.s+=y.s;if(y.p>0){c.p++;c.sum+=y.p}});
+A.st+=gg.st.length;A.k+=c.k;A.n+=c.n;A.s+=c.s;A.p+=c.p;A.sum+=c.sum;
+var t=c.k+c.n+c.s;
+return '<tr><td>'+x.n+'</td><td>'+gg.st.length+'</td><td>'+(t?Math.round(c.k*100/t)+'%':'-')+'</td><td>'+c.p+'/'+gg.st.length+'</td><td>'+money(c.sum)+'</td></tr>'}).join('');
+var at=A.k+A.n+A.s;
+h+='<h2>Hamma guruhlar, '+ttl+'</h2><div class="tw"><table><thead><tr><th>Guruh</th><th>O\'quvchi</th><th>Qatnashish</th><th>To\'lagan</th><th>Tushum</th></tr></thead><tbody>'+gr+'</tbody><tfoot><tr><td>Jami</td><td>'+A.st+'</td><td>'+(at?Math.round(A.k*100/at)+'%':'-')+'</td><td>'+A.p+'/'+A.st+'</td><td>'+money(A.sum)+'</td></tr></tfoot></table></div>';
+return h}
+function vStu(g){
+var h='<label for="nm">Ismlar (har bir qatorga bittadan)</label><textarea id="nm" rows="4" placeholder="Ali Valiyev&#10;Madina Karimova"></textarea><div style="margin-top:10px"><button class="act" data-a="add">Qo\'shish</button></div>';
+h+='<p class="info" style="margin-top:14px">Guruhda: '+g.st.length+' ta o\'quvchi</p>';
+g.st.forEach(function(s){
+h+='<div class="list"><span>'+esc(s.n)+'</span>'+(S.del===s.id?'<span><button class="act red" data-a="delok" data-id="'+s.id+'">Ha, o\'chirish</button> <button class="act ghost" data-a="delno">Yo\'q</button></span>':'<button class="act ghost" data-a="del" data-id="'+s.id+'">O\'chirish</button>')+'</div>'});
+return h}
+app.addEventListener('click',function(e){
+var t=e.target.closest('[data-a]');if(!t||t.tagName==='INPUT')return;
+if(t.dataset.a==='save'){doSave();return}
+if(t.dataset.a==='keep'){doKeep();return}
+var a=t.dataset.a,v=t.dataset.v,id=t.dataset.id,g=gd(S.cur),m;
+if(a==='grp'){S.cur=v;S.del=null;S.edit=null}
+else if(a==='tab'){S.tab=v;S.del=null;S.edit=null}
+else if(a==='bg'){S.bg=v}
+else if(a==='mark'){m=g.att[S.date]||(g.att[S.date]={});if(m[id]===v)delete m[id];else m[id]=v}
+else if(a==='all'){m=g.att[S.date]||(g.att[S.date]={});g.st.forEach(function(s){m[s.id]='k'})}
+else if(a==='edit'){S.edit=id}
+else if(a==='canc'){S.edit=null}
+else if(a==='savepay'){var val=parseInt((document.getElementById('amt').value||'').replace(/\D/g,''),10)||0;m=g.pay[S.month]||(g.pay[S.month]={});if(val>0)m[id]=val;else delete m[id];S.edit=null}
+else if(a==='clrpay'){m=g.pay[S.month]||(g.pay[S.month]={});delete m[id];S.edit=null}
+else if(a==='add'){
+var names=document.getElementById('nm').value.split('\n').map(function(x){return x.trim()}).filter(Boolean);
+var f=0;
+if(!names.length)return;
+names.forEach(function(n){g.st.push({id:uid(),n:n,f:f})})}
+else if(a==='del'){S.del=id}
+else if(a==='delno'){S.del=null}
+else if(a==='delok'){g.st=g.st.filter(function(s){return s.id!==id});Object.keys(g.att).forEach(function(d){delete g.att[d][id]});Object.keys(g.pay).forEach(function(d){delete g.pay[d][id]});S.del=null}
+else return;
+save();R()});
+app.addEventListener('change',function(e){
+var t=e.target,a=t.dataset.a;
+if(a==='date'&&t.value){S.date=t.value}
+else if(a==='month'&&t.value){S.month=t.value;S.edit=null}
+else return;
+save();R()});
+app.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.id==='amt'){var b=app.querySelector('[data-a="savepay"]');if(b)b.click()}});
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+if(window.claude&&claude.use){claude.use('downloads').then(function(d){if(d){DL=d;R()}}).catch(function(){})}
+R();
+</script>
+</body>
+</html>
