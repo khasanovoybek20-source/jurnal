@@ -77,6 +77,7 @@ tfoot td{font-weight:700}
 </head>
 <body>
 <div id="app"></div>
+<input type="file" id="rf" accept=".json,application/json" hidden>
 <script id="code">
 var G=[
 {n:'A1',s:'Toq · 06–08',t:'Toq kunlari (dushanba, chorshanba, juma), 06:00–08:00',d:[1,3,5]},
@@ -106,15 +107,16 @@ var css=document.getElementById('css').textContent,code=document.getElementById(
 var pre='var PRELOAD='+JSON.stringify({t:Date.now(),bg:S.bg,d:S.d}).replace(/</g,'\\u003c')+';\n';
 return '<!DOCTYPE html>\n<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>O\'quv jurnali</title><style>'+css+'</style></head><body><div id="app"></div><scr'+'ipt>'+pre+code+'<\/scr'+'ipt></body></html>'}
 function doKeep(){if(save())note('Saqlandi. Keyingi kirishingizda ham ma\'lumotlar shu holatda turadi.');else note('Saqlab bo\'lmadi: brauzer saqlashga ruxsat bermayapti.')}
+function blobSave(){try{var b=new Blob([JSON.stringify({app:'jurnal',v:1,bg:S.bg,d:S.d})],{type:'application/json'});var u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='jurnal-zaxira-'+today()+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000);note("Zaxira fayl saqlandi. Yuklashlar papkasidan topasiz.")}catch(e){note("Saqlab bo'lmadi.")}}
 function doSave(){
-if(!DL)return;
+if(!DL){blobSave();return}
 DL.save({filename:'jurnal-'+today()+'.html',data:buildCopy()}).then(function(){note('Zaxira fayl saqlandi.')}).catch(function(e){if(!e||e.code!=='declined')note('Saqlab bo\'lmadi. Qaytadan urinib ko\'ring.')})}
 var app=document.getElementById('app');
 function R(){
 document.body.style.background=BG[S.bg];
 var g=gd(S.cur),gi=G.filter(function(x){return x.n===S.cur})[0];
 var h='<header class="card"><div class="top"><h1>O\'quv jurnali</h1><div class="sw" role="group" aria-label="Fon">'+
-Object.keys(BG).map(function(k){return '<button data-a="bg" data-v="'+k+'" aria-label="Fon: '+k+'" class="'+(k===S.bg?'on':'')+'" style="background:'+BG[k]+'"></button>'}).join('')+'</div></div>'+'<div class="hb"><button class="act" data-a="keep">Saqlash</button>'+(DL?'<button class="act ghost" data-a="save">Zaxira fayl</button>':'')+'</div><p class="info" style="margin:8px 0 0">'+(S.saved?'Oxirgi saqlash: '+fmt(S.saved)+'. ':'')+'Har bir o\'zgarish avtomatik saqlanadi.</p>'+(S.msg?'<div class="warn">'+S.msg+'</div>':'')+'</header>';
+Object.keys(BG).map(function(k){return '<button data-a="bg" data-v="'+k+'" aria-label="Fon: '+k+'" class="'+(k===S.bg?'on':'')+'" style="background:'+BG[k]+'"></button>'}).join('')+'</div></div>'+'<div class="hb"><button class="act" data-a="keep">Saqlash</button>'+'<button class="act ghost" data-a="save">Zaxira fayl</button><button class="act ghost" data-a="restore">Tiklash</button>'+'</div><p class="info" style="margin:8px 0 0">'+(S.saved?'Oxirgi saqlash: '+fmt(S.saved)+'. ':'')+'Har bir o\'zgarish avtomatik saqlanadi.</p>'+(S.msg?'<div class="warn">'+S.msg+'</div>':'')+'</header>';
 h+='<nav class="gs card" aria-label="Guruhlar">'+G.map(function(x){return '<button data-a="grp" data-v="'+x.n+'" class="'+(x.n===S.cur?'on':'')+'"><b>'+x.n+'</b><small>'+x.s+'</small></button>'}).join('')+'</nav>';
 h+='<div class="tabs">'+[['att',"Yo'qlama"],['pay',"To'lov"],['stu',"O'quvchilar"],['rep','Hisobot']].map(function(x){return '<button data-a="tab" data-v="'+x[0]+'" class="'+(x[0]===S.tab?'on':'')+'">'+x[1]+'</button>'}).join('')+'</div>';
 h+='<main class="card"><p class="info"><b>'+gi.n+'</b>: '+gi.t+'</p>';
@@ -186,6 +188,7 @@ app.addEventListener('click',function(e){
 var t=e.target.closest('[data-a]');if(!t||t.tagName==='INPUT')return;
 if(t.dataset.a==='save'){doSave();return}
 if(t.dataset.a==='keep'){doKeep();return}
+if(t.dataset.a==='restore'){document.getElementById('rf').click();return}
 var a=t.dataset.a,v=t.dataset.v,id=t.dataset.id,g=gd(S.cur),m;
 if(a==='grp'){S.cur=v;S.del=null;S.edit=null}
 else if(a==='tab'){S.tab=v;S.del=null;S.edit=null}
@@ -219,6 +222,7 @@ R();
 </script>
 <script>
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
+document.getElementById('rf').addEventListener('change',function(e){var f=e.target.files[0];if(!f)return;var fr=new FileReader();fr.onload=function(){try{var o=JSON.parse(fr.result);if(!o||typeof o.d!=='object')throw 0;if(!confirm("Hozirgi ma'lumotlar o'rniga fayldagilar qo'yiladi. Davom etamizmi?")){e.target.value='';return}S.d=o.d;if(o.bg&&BG[o.bg])S.bg=o.bg;save();note('Tiklandi.')}catch(x){note("Bu fayl jurnal zaxirasi emas.")}e.target.value=''};fr.readAsText(f)});
 var ip=null;
 window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();ip=e;var b=document.createElement('button');b.className='act';b.textContent="Ilovani o'rnatish";b.style.cssText='position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:9;box-shadow:0 2px 8px rgba(0,0,0,.35)';b.onclick=function(){ip.prompt();ip.userChoice.then(function(){b.remove();ip=null})};document.body.appendChild(b)});
 </script>
