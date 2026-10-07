@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>O'quv jurnali</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f6b6b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Jurnal">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" href="icon-192.png">
 <style id="css">
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 --card:rgba(255,255,255,.93);--ink:#1d2a2a;--mute:#5d6b6b;--line:#d3dcdc;--acc:#0f6b6b;--accfg:#fff;--field:#fff;
@@ -209,6 +216,11 @@ app.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.id==='am
 try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
 if(window.claude&&claude.use){claude.use('downloads').then(function(d){if(d){DL=d;R()}}).catch(function(){})}
 R();
+</script>
+<script>
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
+var ip=null;
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();ip=e;var b=document.createElement('button');b.className='act';b.textContent="Ilovani o'rnatish";b.style.cssText='position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:9;box-shadow:0 2px 8px rgba(0,0,0,.35)';b.onclick=function(){ip.prompt();ip.userChoice.then(function(){b.remove();ip=null})};document.body.appendChild(b)});
 </script>
 </body>
 </html>
